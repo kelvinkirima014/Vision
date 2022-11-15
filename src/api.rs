@@ -7,7 +7,7 @@ use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
 use dotenv::dotenv;
 use std::env;
 
-async fn _api_helpers() -> Result<(), failure::Error>  {
+pub async fn main() -> Result<(), failure::Error>  {
     dotenv().ok();
     
     let api_key = env::var("KUCOIN_API_KEY").unwrap();
@@ -35,7 +35,8 @@ async fn _api_helpers() -> Result<(), failure::Error>  {
     let subs = vec![WSTopic::Ticker(vec!["BTC-USDT".to_string()])];
      
     // Initalize your subscription and use await to unwrap the future   
-    ws.subscribe(url, subs).await?;
+    let response = ws.subscribe(url, subs).await?;
+    println!("Got websocket response: {:?}", response);
      
     // Handle incoming responses matching messages. Note, the message matching is
     // not required for a single subscription but may be desired
