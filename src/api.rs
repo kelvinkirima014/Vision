@@ -1,18 +1,23 @@
 extern crate kucoin_rs;
 
 use kucoin_rs::futures::TryStreamExt;
-use kucoin_rs::tokio;
 use kucoin_rs::failure;
 use kucoin_rs::kucoin::client::{Kucoin, Credentials, KucoinEnv};
-use kucoin_rs::kucoin::model::websocket::{Subscribe, KucoinWebsocketMsg, WSType, WSTopic, WSResp};
+use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
+use dotenv::dotenv;
+use std::env;
 
-
-async fn api_helpers() -> Result<(), failure::Error>  {
+async fn _api_helpers() -> Result<(), failure::Error>  {
+    dotenv().ok();
+    
+    let api_key = env::var("KUCOIN_API_KEY").unwrap();
+    let secret_key = env::var("KUCOIN_SECRET_KEY").unwrap();
+    let passphrase = env::var("KUCOIN_PASSPHRASE").unwrap();
     // If credentials are needed, generate a new Credentials struct w/ the necessary keys
     let credentials = Credentials::new(
-        "xxxxxxxxxxxxxXXXXXXxxx",
-        "XXxxxxx-xxxxxx-xXxxxx-xxxx",
-        "xxxxxx"
+        &api_key,
+        &secret_key,
+        &passphrase,
     );
 
     // Initialize the Kucoin API struct
