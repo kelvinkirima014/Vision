@@ -6,5 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+const_env = "0.1.2"
 dotenv = "0.15.0"
 kucoin_rs = "0.4.4"

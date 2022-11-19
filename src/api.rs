@@ -6,30 +6,21 @@ use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
 use dotenv::dotenv;
 use std::env;
 
-const API_KEY: String = env::var("KUCOIN_API_KEY").expect("missing API key");
-const SECRET_KEY: String = env::var("KUCOIN_SECRET_KEY").expect("wrong secret key");
-const PASSPHRASE: String = env::var("KUCOIN_PASSPHRASE").expect("Wrong passphrase");
-
-pub fn get_credentials(credentials: Credentials) -> Credentials {
-    return credentials
-}
-
-
 #[tokio::main]
 pub async fn api_helpers() -> Result<(), failure::Error>  {
     dotenv().ok();
     
-    // let api_key = env::var("KUCOIN_API_KEY").expect("missing API key");
-    // let secret_key = env::var("KUCOIN_SECRET_KEY").expect("wrong secret key");
-    // let passphrase = env::var("KUCOIN_PASSPHRASE").expect("Wrong passphrase");
+    let api_key = env::var("KUCOIN_API_KEY").expect("missing API key");
+    let secret_key = env::var("KUCOIN_SECRET_KEY").expect("wrong secret key");
+    let passphrase = env::var("KUCOIN_PASSPHRASE").expect("Wrong passphrase");
     //generate a new Credentials struct w/ the necessary keys
-    // let credentials = Credentials::new(
-    //     &API_KEY,
-    //     &SECRET_KEY,
-    //     &PASSPHRASE,
-    // );
+    let credentials = Credentials::new(
+        &api_key,
+        &secret_key,
+        &passphrase,
+    );
 
-    let credentials = get_credentials(Credentials::new(&API_KEY, &SECRET_KEY, &PASSPHRASE));
+   // let credentials = get_credentials(Credentials::new(&API_KEY, &SECRET_KEY, &PASSPHRASE));
 
     // Initialize the Kucoin API struct
     let api = Kucoin::new(KucoinEnv::Live, Some(credentials))?;
