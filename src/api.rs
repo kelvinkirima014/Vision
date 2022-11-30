@@ -47,6 +47,11 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
     }
     Ok(())
 }
-
+ 
+pub async fn init_sandbox_api() -> Result<(), failure::Error> {
+    let api = Kucoin::new(KucoinEnv::Sandbox, None);
+    
+    Ok(())
+}
 
   
