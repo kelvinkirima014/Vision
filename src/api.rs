@@ -49,7 +49,9 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
 }
  
 pub async fn init_sandbox_api() -> Result<(), failure::Error> {
-    let api = Kucoin::new(KucoinEnv::Sandbox, None);
+    let api = Kucoin::new(KucoinEnv::Sandbox, None)?;
+    let url = api.get_socket_endpoint(WSType::Public).await?;
+    let websock = api.websocket();
     
     Ok(())
 }
