@@ -51,8 +51,20 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
 pub async fn init_sandbox_api() -> Result<(), failure::Error> {
     let api = Kucoin::new(KucoinEnv::Sandbox, None)?;
     let url = api.get_socket_endpoint(WSType::Public).await?;
-    let websock = api.websocket();
-    
+    let mut websock = api.websocket();
+    let subscriptions = vec![WSTopic::OrderBook(vec!["BTC-USDT".to_string()])];
+    websock.subscribe(url, subscriptions).await?;
+
+    while let Some(msg) = websock.try_next().await? {
+        match msg {
+            KucoinWebsocketMsg::OrderBookMsg(msg) => println!("{:?}", msg),
+            _=> (),
+        }
+    }
+
+
+
+
     Ok(())
 }
 
