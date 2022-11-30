@@ -7,7 +7,7 @@ use dotenv::dotenv;
 use std::env;
 
 #[tokio::main]
-pub async fn api_helpers() -> Result<(), failure::Error>  {
+pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
     dotenv().ok();
     
     let api_key = env::var("KUCOIN_API_KEY").expect("missing API key");
@@ -47,5 +47,6 @@ pub async fn api_helpers() -> Result<(), failure::Error>  {
     }
     Ok(())
 }
+
 
   
