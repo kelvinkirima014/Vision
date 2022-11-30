@@ -31,7 +31,7 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
     let mut ws = api.websocket();
 
     // Generate a Vec<WSTopic> of desired subs.They need to be public or private depending on the url
-    let subs = vec![WSTopic::Ticker(vec!["BTC-USDT".to_string()])];
+    let subs = vec![WSTopic::OrderBook(vec!["BTC-USDT".to_string()])];
 
     // Initalize your subscription and use await to unwrap the future   
     ws.subscribe(url, subs).await?;    
@@ -39,7 +39,7 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
     // Handle incoming responses matching messages
     while let Some(msg) = ws.try_next().await? {
         match msg {
-            KucoinWebsocketMsg::TickerMsg(msg) => println!("{:#?}", msg),
+            KucoinWebsocketMsg::OrderBookMsg(msg) => println!("{:#?}", msg),
             KucoinWebsocketMsg::PongMsg(msg) => println!("{:#?}", msg),     // Optional
             KucoinWebsocketMsg::WelcomeMsg(msg) => println!("{:#?}", msg),  // Optional
             _ => (),
@@ -47,7 +47,8 @@ pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
     }
     Ok(())
 }
- 
+
+#[tokio::main]
 pub async fn init_sandbox_api() -> Result<(), failure::Error> {
     let api = Kucoin::new(KucoinEnv::Sandbox, None)?;
     let url = api.get_socket_endpoint(WSType::Public).await?;
@@ -57,8 +58,8 @@ pub async fn init_sandbox_api() -> Result<(), failure::Error> {
 
     while let Some(msg) = websock.try_next().await? {
         match msg {
-            KucoinWebsocketMsg::OrderBookMsg(msg) => println!("{:?}", msg),
-            _=> (),
+            KucoinWebsocketMsg::OrderBookMsg(msg) => println!("{:#?}", msg),
+            _ => (),
         }
     }
 
