@@ -1,13 +1,15 @@
 use kucoin_rs::futures::TryStreamExt;
+//use kucoin_rs::kucoin::error::APIError;
 use kucoin_rs::tokio;
-use kucoin_rs::failure;
+use std::error::Error;
+
 use kucoin_rs::kucoin::client::{Kucoin, Credentials, KucoinEnv};
 use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
 use dotenv::dotenv;
 use std::env;
 
 // #[tokio::main]
-// pub async fn init_kucoin_api() -> Result<(), failure::Error>  {
+// pub async fn init_kucoin_api() -> Result<(), anyhow::Error>  {
 //     dotenv().ok();
     
 //     let api_key = env::var("KUCOIN_API_KEY").expect("missing API key");
@@ -49,7 +51,7 @@ use std::env;
 // }
 
 #[tokio::main]
-pub async fn init_sandbox_api() -> Result<(), failure::Error> {
+pub async fn init_sandbox_api() -> Result<(), Box<dyn Error>> {
 
     dotenv().ok();
     

@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 const_env = "0.1.2"
 dotenv = "0.15.0"
-kucoin_rs = "0.4.4"
+kucoin_rs = { git = "https://github.com/bobdebuildr/kucoin_rs.git", branch = "rm_failure" }
+thiserror = "1.0.37"
