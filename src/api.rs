@@ -5,26 +5,17 @@ use std::error::Error;
 
 use kucoin_rs::kucoin::client::{Kucoin, Credentials, KucoinEnv};
 use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
-use dotenv::dotenv;
-use std::env;
-
+// use dotenv::dotenv;
+// use std::env;
+use crate::api_credentials::ApiCredentials;
 #[tokio::main]
-pub async fn init_kucoin_api() -> Result<(), Box<dyn Error>>  {
-    dotenv().ok();
-    
-    let api_key = env::var("KUCOIN_API_KEY").expect("missing API key");
-    let secret_key = env::var("KUCOIN_SECRET_KEY").expect("wrong secret key");
-    let passphrase = env::var("KUCOIN_PASSPHRASE").expect("Wrong passphrase");
+pub async fn init_kucoin_api(api_credentials: ApiCredentials) -> Result<(), Box<dyn Error>>  {
 
-    //generate a new Credentials struct w/ the necessary keys
-    let credentials = Credentials::new(
-        &api_key,
-        &secret_key,
-        &passphrase,
-    );
+
+    let api_credentials = Credentials::new(&api_credentials.api_key, &api_credentials.api_secret, &api_credentials.api_pass);
 
     // Initialize the Kucoin API struct
-    let api = Kucoin::new(KucoinEnv::Live, Some(credentials))?;
+    let api = Kucoin::new(KucoinEnv::Live, Some(api_credentials))?;
      
     // Generate the dynamic Public or Private websocket url and endpoint from Kucoin
     let url = api.get_socket_endpoint(WSType::Public).await?;
@@ -50,37 +41,37 @@ pub async fn init_kucoin_api() -> Result<(), Box<dyn Error>>  {
     Ok(())
 }
 
-#[tokio::main]
-pub async fn init_sandbox_api() -> Result<(), Box<dyn Error>> {
+// #[tokio::main]
+// pub async fn init_sandbox_api() -> Result<(), Box<dyn Error>> {
 
-    dotenv().ok();
+//     dotenv().ok();
     
-    let api_key = env::var("KUCOIN_API_KEY_SANDBOX").expect("missing API key");
-    let secret_key = env::var("KUCOIN_SECRET_KEY_SANDBOX").expect("wrong secret key");
-    let passphrase = env::var("KUCOIN_PASSPHRASE_SANDBOX").expect("Wrong passphrase");
+//     let api_key = env::var("KUCOIN_API_KEY_SANDBOX").expect("missing API key");
+//     let secret_key = env::var("KUCOIN_SECRET_KEY_SANDBOX").expect("wrong secret key");
+//     let passphrase = env::var("KUCOIN_PASSPHRASE_SANDBOX").expect("Wrong passphrase");
 
-    //generate a new Credentials struct w/ the necessary keys
-    let credentials = Credentials::new(
-        &api_key,
-        &secret_key,
-        &passphrase,
-    );
+//     //generate a new Credentials struct w/ the necessary keys
+//     let credentials = Credentials::new(
+//         &api_key,
+//         &secret_key,
+//         &passphrase,
+//     );
 
-    let api = Kucoin::new(KucoinEnv::Sandbox, Some(credentials))?;
-    let url = api.get_socket_endpoint(WSType::Public).await?;
-    let mut websock = api.websocket();
-    let subscriptions = vec![WSTopic::Ticker(vec!["BTC-USDT".to_string()])];
-    websock.subscribe(url, subscriptions).await?;
+//     let api = Kucoin::new(KucoinEnv::Sandbox, Some(credentials))?;
+//     let url = api.get_socket_endpoint(WSType::Public).await?;
+//     let mut websock = api.websocket();
+//     let subscriptions = vec![WSTopic::Ticker(vec!["BTC-USDT".to_string()])];
+//     websock.subscribe(url, subscriptions).await?;
 
-    while let Some(msg) = websock.try_next().await? {
-        match msg {
-            KucoinWebsocketMsg::TickerMsg(msg) => println!("{:#?}", msg),
-            KucoinWebsocketMsg::PongMsg(msg) => println!("{:#?}", msg),     // Optional
-            _ => (),
-        }
-    }
+//     while let Some(msg) = websock.try_next().await? {
+//         match msg {
+//             KucoinWebsocketMsg::TickerMsg(msg) => println!("{:#?}", msg),
+//             KucoinWebsocketMsg::PongMsg(msg) => println!("{:#?}", msg),     // Optional
+//             _ => (),
+//         }
+//     }
 
-    Ok(())
-}
+//     Ok(())
+// }
 
   
