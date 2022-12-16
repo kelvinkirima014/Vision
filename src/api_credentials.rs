@@ -1,7 +1,5 @@
 use kucoin_rs::{serde_json, serde_derive::{Serialize, Deserialize}};
 
-
-//static SETTINGS_JSON: &'static str = include_str!("./credentials.json");
 static  CREDENTIALS_JSON: &'static str = include_str!("./credentials.json");
 
 #[derive(Serialize, Deserialize, Clone)]
