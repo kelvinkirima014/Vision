@@ -1,5 +1,4 @@
 use kucoin_rs::futures::TryStreamExt;
-//use kucoin_rs::kucoin::error::APIError;
 use kucoin_rs::tokio;
 use std::error::Error;
 
