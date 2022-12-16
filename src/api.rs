@@ -4,7 +4,6 @@ use std::error::Error;
 
 use kucoin_rs::kucoin::client::{Kucoin, Credentials, KucoinEnv};
 use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
-// use dotenv::dotenv;
 // use std::env;
 use crate::api_credentials::ApiCredentials;
 #[tokio::main]
