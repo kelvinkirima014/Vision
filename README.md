@@ -1,1 +1,1 @@
-A crypto trading bot implementation written in Rust.
+A cryptocurrencies trading bot implementation written in Rust.
