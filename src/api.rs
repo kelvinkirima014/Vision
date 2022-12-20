@@ -7,11 +7,10 @@ use kucoin_rs::kucoin::model::websocket::{KucoinWebsocketMsg, WSType, WSTopic};
 use crate::api_credentials::ApiCredentials;
 
 #[tokio::main]
-pub async fn init_sandbox_api(/*api_credentials: ApiCredentials*/) -> Result<(), Box<dyn Error>> {
+pub async fn init_sandbox_api(api_credentials: ApiCredentials) -> Result<(), Box<dyn Error>> {
 
-    let api_credentials = ApiCredentials;
-    api_credentials = Credentials::new(api_credentials.api_key, api_credentials.secret_key, api_credentials.passphrase);
-    //let api_credentials = Credentials::new(&api_credentials.api_key, &api_credentials.api_secret, &api_credentials.api_pass);
+  
+    let api_credentials = Credentials::new(&api_credentials.api_key, &api_credentials.api_secret, &api_credentials.api_pass);
 
     // Initialize the Kucoin API struct
     let api = Kucoin::new(KucoinEnv::Sandbox, Some(api_credentials))?;
