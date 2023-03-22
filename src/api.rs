@@ -24,8 +24,6 @@ pub async fn init_sandbox_api(api_credentials: ApiCredentials) -> Result<(), Box
     //Generate a Vec<WSTopic of desired subscriprtions. Maybe Public or Private depending on the url
     let subscriptions = vec![WSTopic::Ticker(vec![
         "BTC-USDT".to_string(),
-        "ETH-USDT".to_string(),
-        "BTC-ETH".to_string(),
         ])];
 
     //initialize the subscription and await the future
